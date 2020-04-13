@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1"
+            charset="UTF-8"
+        />
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+        <style>
+            body {
+                min-width: 310px;
+                max-width: 800px;
+                height: 400px;
+                margin: 0 auto;
+            }
+
+            h2 {
+                font-family: Arial;
+                font-size: 2.5rem;
+                text-align: center;
+            }
+        </style>
+    </head>
+
+    <body onload="firstLoad()">
+        <h2>Weather Station</h2>
+        <div>DANE POGODOWE</div>
+        <div>Data ostatniego pomiaru: <span id="mesurementTime"></span></div>
+        <div>Temperatura: <span id="temperature"></span><span> ℃</span></div>
+        <div>Wilgotność: <span id="humidity"></span><span> %</span></div>
+        <div>Ciśnienie: <span id="pressure"></span><span> hPa</span></div>
+        <br>
+        <div>PYŁY</div>
+        <div>PM 10.0: <span id="pm10"></span><span>  (ug/m3)</span></div>
+        <div>PM 2.5: <span id="pm25"></span><span>  (ug/m3)</span></div>
+        <div>PM 1.0: <span id="pm1"></span><span>  (ug/m3)</span></div>
+    </body>
+
+    <script>
+        function updateTemperature() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var temperatureLabel = document.getElementById(
+                        "temperature"
+                    );
+                    var temperatureData = parseFloat(this.responseText);
+                    console.log(this.responseText);
+                    temperatureLabel.innerHTML = temperatureData;
+                }
+            };
+            xhttp.open("GET", "/temperature", true);
+            xhttp.send();
+        }
+
+        function updateHumidity() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var humidityLabel = document.getElementById("humidity");
+                    var humidityData = parseFloat(this.responseText);
+                    console.log(this.responseText);
+                    humidityLabel.innerHTML = humidityData;
+                }
+            };
+            xhttp.open("GET", "/humidity", true);
+            xhttp.send();
+        }
+        
+        function updatePressure() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var pressureLabel = document.getElementById("pressure");
+                    var pressureData = parseFloat(this.responseText);
+                    console.log(this.responseText);
+                    pressureLabel.innerHTML=pressureData;
+                }
+            };
+            xhttp.open("GET", "/pressure", true);
+            xhttp.send();
+        }
+
+        function updateMesurementTime() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var mesurementTimeLabel = document.getElementById("mesurementTime");
+                    var mesurementTimeData = this.responseText;
+                    console.log(this.responseText);
+                    mesurementTimeLabel.innerHTML=mesurementTimeData;
+                }
+            };
+            xhttp.open("GET", "/time", true);
+            xhttp.send();
+        }
+
+        function updatePM10() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var pm10Label = document.getElementById("pm10");
+                    var pm10Data = parseFloat(this.responseText);
+                    var pm10Per = pm10Data/50*100;
+                    console.log(this.responseText);
+                    pm10Label.innerHTML=pm10Per+" % "+pm10Data;
+                }
+            };
+            xhttp.open("GET", "/pm10", true);
+            xhttp.send();
+        }
+
+        function updatePM25() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var pm25Label = document.getElementById("pm25");
+                    var pm25Data = parseFloat(this.responseText);
+                    console.log(this.responseText);
+                    pm25Label.innerHTML=pm25Data;
+                }
+            };
+            xhttp.open("GET", "/pm25", true);
+            xhttp.send();
+        }
+
+        function updatePM1() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var pm1Label = document.getElementById("pm1");
+                    var pm1Data = parseFloat(this.responseText);
+                    console.log(this.responseText);
+                    pm1Label.innerHTML=pm1Data;
+                }
+            };
+            xhttp.open("GET", "/pm1", true);
+            xhttp.send();
+        }
+
+        function firstLoad() {
+            updateMesurementTime();
+            updateTemperature();
+            updateHumidity();
+            updatePressure();
+            updatePM10();
+            updatePM25();
+            updatePM1();
+        }
+
+        setInterval("updateMesurementTime();", 120000);
+        setInterval("updateTemperature()", 120000);
+        setInterval("updateHumidity()", 120000);
+        setInterval("updatePressure()", 120000);
+        setInterval("updatePM10()", 120000);
+        setInterval("updatePM25()", 120000);
+        setInterval("updatePM1()", 120000);
+    </script>
+</html>

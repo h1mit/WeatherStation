@@ -1,160 +1,298 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1"
-            charset="UTF-8"
-        />
-        <script src="https://code.highcharts.com/highcharts.js"></script>
-        <style>
-            body {
-                min-width: 310px;
-                max-width: 800px;
-                height: 400px;
-                margin: 0 auto;
-            }
+<html lang="en">
 
-            h2 {
-                font-family: Arial;
-                font-size: 2.5rem;
-                text-align: center;
-            }
-        </style>
-    </head>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8" />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous" />
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <style>
+        .center {
+            text-align: center;
+        }
 
-    <body onload="firstLoad()">
-        <h2>Weather Station</h2>
-        <div>DANE POGODOWE</div>
-        <div>Data ostatniego pomiaru: <span id="mesurementTime"></span></div>
-        <div>Temperatura: <span id="temperature"></span><span> ℃</span></div>
-        <div>Wilgotność: <span id="humidity"></span><span> %</span></div>
-        <div>Ciśnienie: <span id="pressure"></span><span> hPa</span></div>
-        <br>
-        <div>PYŁY</div>
-        <div>PM 10.0: <span id="pm10"></span><span>  (ug/m3)</span></div>
-        <div>PM 2.5: <span id="pm25"></span><span>  (ug/m3)</span></div>
-        <div>PM 1.0: <span id="pm1"></span><span>  (ug/m3)</span></div>
-    </body>
+        .result span {
+            margin: 3%
+        }
 
-    <script>
-        function updateTemperature() {
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    var temperatureLabel = document.getElementById(
-                        "temperature"
-                    );
-                    var temperatureData = parseFloat(this.responseText);
-                    console.log(this.responseText);
-                    temperatureLabel.innerHTML = temperatureData;
+        .bord {
+            border: 5px solid green;
+            border-radius: 25px;
+            width: 25%;
+            height: 120px;
+            padding: 15px;
+            margin: 5px
+        }
+
+        img {
+            height: 6em;
+            width: 6em;
+        }
+
+        .values {
+            font-weight: bold;
+            font-size: 1.3em;
+        }
+
+        .title {
+            font-size: 1.3em;
+        }
+    </style>
+</head>
+
+<body onload="firstLoad()">
+    <div class="w3-sidebar w3-bar-block w3-black w3-card values" style="width:130px">
+        <h5 class="w3-bar-item">Menu</h5>
+        <button class="w3-bar-item w3-button tablink" onclick="openLink(event, 'start')">
+            Start
+        </button>
+        <button class="w3-bar-item w3-button tablink" onclick="openLink(event, 'data')">
+            Dane pogodowe
+        </button>
+    </div>
+    <div style="margin-left:20%">
+        <div id="start" class="w3-container city w3-animate-zoom" style="display:none">
+            <div class="w3-row">
+                Hello
+            </div>
+        </div>
+        <div id="data" class="w3-container city w3-animate-left">
+            <br />
+            <br />
+            <div class="w3-row values center">
+                Czas ostatniego pomiaru:
+                <span id="mesurementTime"></span>
+            </div>
+            <br>
+            <br />
+            <div class="w3-row center">
+                <div class="w3-third w3-container">
+                    <br />
+                    <img src="https://i.imgur.com/W0PFZli.png" data-toggle="tooltip" data-placement="top" title="
+Temperatura">
+                    <br><br>
+                    <span id="temperature" class="values"></span>
+                </div>
+                <div class="w3-third w3-container">
+                    <br />
+                    <img src="https://i.imgur.com/y1s3QAX.png" data-toggle="tooltip" data-placement="top" title="
+Wilgotność">
+                    <br><br>
+                    <span id="humidity" class="values"></span>
+                </div>
+                <div class="w3-third w3-container">
+                    <br />
+                    <img src="https://i.imgur.com/8wMx0zy.png" data-toggle="tooltip" data-placement="top" title="
+Ciśnienie">
+                    <br><br>
+                    <span id="pressure" class="values"></span>
+                </div>
+            </div>
+            <br />
+            <div class="w3-row center">
+                <div class="w3-third w3-container values">
+                    <div class="w3-row title">
+                        <br />
+                        <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="top" title="
+PM10 to zanieczyszczenia powietrza o średnicy 10 mikrometrów lub mniej."></i> PM 10.0
+                    </div>
+                    <br>
+                    <div class="w3-row result">
+                        <span id="pm10per" data-toggle="tooltip" data-placement="top" title="
+Norma dobowa: 50 µg/m³"></span>
+                        <span id="pm10">
+                        </span>
+                    </div>
+                </div>
+
+                <div class="w3-third w3-container values">
+                    <div class="w3-row title">
+                        <br />
+                        <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="top" title="
+PM2.5 to zanieczyszczenia powietrza o średnicy 2,5 mikrometra lub mniej."></i> PM 2.5
+                    </div>
+                    <br>
+                    <div class="w3-row result">
+                        <span id="pm25per" data-toggle="tooltip" data-placement="top" title="
+Norma dobowa: 25 µg/m³"></span>
+                        <span id="pm25">
+                        </span>
+                    </div>
+                </div>
+
+                <div class="w3-third w3-container values">
+                    <div class="w3-row title">
+                        <br />
+                        <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="top" title="
+PM1 to zanieczyszczenia powietrza o średnicy 1 mikrometr lub mniej."></i> PM 1.0
+                    </div>
+                    <br>
+                    <div class="w3-row value">
+                        <span id="pm1" data-toggle="tooltip" data-placement="top" title="
+Norma dobowa dla PM1 nie jest zdefiniowana">
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <script>
+                //site design
+                function openLink(evt, animName) {
+                    var i, x, tablinks;
+                    x = document.getElementsByClassName("city");
+                    for (i = 0; i < x.length; i++) {
+                        x[i].style.display = "none";
+                    }
+                    tablinks = document.getElementsByClassName("tablink");
+                    for (i = 0; i < x.length; i++) {
+                        tablinks[i].className = tablinks[i].className.replace(
+                            " w3-red",
+                            ""
+                        );
+                    }
+                    document.getElementById(animName).style.display = "block";
+                    evt.currentTarget.className += " w3-red";
                 }
-            };
-            xhttp.open("GET", "/temperature", true);
-            xhttp.send();
-        }
 
-        function updateHumidity() {
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    var humidityLabel = document.getElementById("humidity");
-                    var humidityData = parseFloat(this.responseText);
-                    console.log(this.responseText);
-                    humidityLabel.innerHTML = humidityData;
+                $(document).ready(function() {
+                    $('[data-toggle="tooltip"]').tooltip();
+                });
+
+
+                //requests
+                function updateTemperature() {
+                    var xhttp = new XMLHttpRequest();
+                    xhttp.onreadystatechange = function() {
+                        if (this.readyState == 4 && this.status == 200) {
+                            var temperatureLabel = document.getElementById(
+                                "temperature"
+                            );
+                            var temperatureData = parseFloat(this.responseText);
+                            console.log(this.responseText);
+                            temperatureLabel.innerHTML = temperatureData + " °C";
+                        }
+                    };
+                    xhttp.open("GET", "/temperature", true);
+                    xhttp.send();
                 }
-            };
-            xhttp.open("GET", "/humidity", true);
-            xhttp.send();
-        }
-        
-        function updatePressure() {
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    var pressureLabel = document.getElementById("pressure");
-                    var pressureData = parseFloat(this.responseText);
-                    console.log(this.responseText);
-                    pressureLabel.innerHTML=pressureData;
+
+                function updateHumidity() {
+                    var xhttp = new XMLHttpRequest();
+                    xhttp.onreadystatechange = function() {
+                        if (this.readyState == 4 && this.status == 200) {
+                            var humidityLabel = document.getElementById(
+                                "humidity"
+                            );
+                            var humidityData = parseFloat(this.responseText);
+                            console.log(this.responseText);
+                            humidityLabel.innerHTML = humidityData + " %";
+                        }
+                    };
+                    xhttp.open("GET", "/humidity", true);
+                    xhttp.send();
                 }
-            };
-            xhttp.open("GET", "/pressure", true);
-            xhttp.send();
-        }
 
-        function updateMesurementTime() {
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    var mesurementTimeLabel = document.getElementById("mesurementTime");
-                    var mesurementTimeData = this.responseText;
-                    console.log(this.responseText);
-                    mesurementTimeLabel.innerHTML=mesurementTimeData;
+                function updatePressure() {
+                    var xhttp = new XMLHttpRequest();
+                    xhttp.onreadystatechange = function() {
+                        if (this.readyState == 4 && this.status == 200) {
+                            var pressureLabel = document.getElementById(
+                                "pressure"
+                            );
+                            var pressureData = parseFloat(this.responseText);
+                            console.log(this.responseText);
+                            pressureLabel.innerHTML = pressureData + " hPa";
+                        }
+                    };
+                    xhttp.open("GET", "/pressure", true);
+                    xhttp.send();
                 }
-            };
-            xhttp.open("GET", "/time", true);
-            xhttp.send();
-        }
 
-        function updatePM10() {
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    var pm10Label = document.getElementById("pm10");
-                    var pm10Data = parseFloat(this.responseText);
-                    var pm10Per = pm10Data/50*100;
-                    console.log(this.responseText);
-                    pm10Label.innerHTML=pm10Per+" % "+pm10Data;
+                function updateMesurementTime() {
+                    var xhttp = new XMLHttpRequest();
+                    xhttp.onreadystatechange = function() {
+                        if (this.readyState == 4 && this.status == 200) {
+                            var mesurementTimeLabel = document.getElementById(
+                                "mesurementTime"
+                            );
+                            var mesurementTimeData = this.responseText;
+                            console.log(this.responseText);
+                            mesurementTimeLabel.innerHTML = mesurementTimeData;
+                        }
+                    };
+                    xhttp.open("GET", "/time", true);
+                    xhttp.send();
                 }
-            };
-            xhttp.open("GET", "/pm10", true);
-            xhttp.send();
-        }
 
-        function updatePM25() {
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    var pm25Label = document.getElementById("pm25");
-                    var pm25Data = parseFloat(this.responseText);
-                    console.log(this.responseText);
-                    pm25Label.innerHTML=pm25Data;
+                function updatePM10() {
+                    var xhttp = new XMLHttpRequest();
+                    xhttp.onreadystatechange = function() {
+                        if (this.readyState == 4 && this.status == 200) {
+                            var pm10Label = document.getElementById("pm10");
+                            var pm10perLabel = document.getElementById("pm10per");
+                            var pm10Data = parseFloat(this.responseText);
+                            var pm10Per = (pm10Data / 50) * 100;
+                            console.log(this.responseText);
+                            pm10Label.innerHTML = pm10Data + " µg/m³";
+                            pm10perLabel.innerHTML = pm10Per.toFixed(2) + " %";
+                        }
+                    };
+                    xhttp.open("GET", "/pm10", true);
+                    xhttp.send();
                 }
-            };
-            xhttp.open("GET", "/pm25", true);
-            xhttp.send();
-        }
 
-        function updatePM1() {
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    var pm1Label = document.getElementById("pm1");
-                    var pm1Data = parseFloat(this.responseText);
-                    console.log(this.responseText);
-                    pm1Label.innerHTML=pm1Data;
+                function updatePM25() {
+                    var xhttp = new XMLHttpRequest();
+                    xhttp.onreadystatechange = function() {
+                        if (this.readyState == 4 && this.status == 200) {
+                            var pm25Label = document.getElementById("pm25");
+                            var pm25perLabel = document.getElementById("pm25per");
+                            var pm25Data = parseFloat(this.responseText);
+                            var pm25Per = (pm25Data / 25) * 100;
+                            console.log(this.responseText);
+                            pm25Label.innerHTML = pm25Data + " µg/m³";
+                            pm25perLabel.innerHTML = pm25Per.toFixed(2) + " %";
+                        }
+                    };
+                    xhttp.open("GET", "/pm25", true);
+                    xhttp.send();
                 }
-            };
-            xhttp.open("GET", "/pm1", true);
-            xhttp.send();
-        }
 
-        function firstLoad() {
-            updateMesurementTime();
-            updateTemperature();
-            updateHumidity();
-            updatePressure();
-            updatePM10();
-            updatePM25();
-            updatePM1();
-        }
+                function updatePM1() {
+                    var xhttp = new XMLHttpRequest();
+                    xhttp.onreadystatechange = function() {
+                        if (this.readyState == 4 && this.status == 200) {
+                            var pm1Label = document.getElementById("pm1");
+                            var pm1Data = parseFloat(this.responseText);
+                            console.log(this.responseText);
+                            pm1Label.innerHTML = pm1Data + " µg/m³";
+                        }
+                    };
+                    xhttp.open("GET", "/pm1", true);
+                    xhttp.send();
+                }
 
-        setInterval("updateMesurementTime();", 120000);
-        setInterval("updateTemperature()", 120000);
-        setInterval("updateHumidity()", 120000);
-        setInterval("updatePressure()", 120000);
-        setInterval("updatePM10()", 120000);
-        setInterval("updatePM25()", 120000);
-        setInterval("updatePM1()", 120000);
-    </script>
-</html>
+                function firstLoad() {
+                    updateMesurementTime();
+                    updateTemperature();
+                    updateHumidity();
+                    updatePressure();
+                    updatePM10();
+                    updatePM25();
+                    updatePM1();
+                }
+
+                setInterval("updateMesurementTime();", 120000);
+                setInterval("updateTemperature()", 120000);
+                setInterval("updateHumidity()", 120000);
+                setInterval("updatePressure()", 120000);
+                setInterval("updatePM10()", 120000);
+                setInterval("updatePM25()", 120000);
+                setInterval("updatePM1()", 120000);
+            </script>
+</body>
+
+</html></html>

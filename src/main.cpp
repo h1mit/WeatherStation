@@ -6,18 +6,19 @@
 #include "PMS.h"
 #include <SoftwareSerial.h>
 #include <ESP8266WiFi.h>
+#include <WiFiClient.h>
 #include <ESPAsyncTCP.h>
 #include <ESPAsyncWebServer.h>
 #include <NTPClient.h>
 #include <WiFiUdp.h>
 #include "SafeStorage.h"
 
-//PMS7003 inicjalizacja
+//PMS7003
 SoftwareSerial mySerial(D3, D4); //RX TX
 PMS pms(mySerial);
 PMS::DATA data;
 
-//BME280 inicjalizacja
+//BME280
 Adafruit_BME280 bme;
 Adafruit_Sensor *bme_temp = bme.getTemperatureSensor();
 Adafruit_Sensor *bme_pressure = bme.getPressureSensor();
@@ -28,6 +29,13 @@ int pm1, pm25, pm10;
 float temperature, humidity, pressure;
 String mesurementTime;
 
+//Ustawienia statycznego adresu IP
+IPAddress staticIP(192, 168, 1, 70);
+IPAddress gateway(192, 168, 1, 254);
+IPAddress subnet(255, 255, 255, 0);
+IPAddress dns(8, 8, 8, 8);
+const char *deviceName = "ESP8266_WeatherStation";
+
 //inicjalizacja klienta NTP
 const long utcOffsetInSeconds = 7200;
 WiFiUDP ntpUDP;
@@ -37,7 +45,7 @@ NTPClient timeClient(ntpUDP, "europe.pool.ntp.org", utcOffsetInSeconds);
 WiFiClient client;
 const char *serverThingSpeak = "api.thingspeak.com";
 
-AsyncWebServer server(80);	//inicjalizacja serwera WWW
+AsyncWebServer server(80); //inicjalizacja serwera WWW
 
 void setup()
 {
@@ -63,14 +71,18 @@ void setup()
 	}
 
 	//łaczenie z siecia WiFi
+	WiFi.disconnect();
+	WiFi.hostname(deviceName);
+	WiFi.config(staticIP, dns, gateway, subnet);
 	WiFi.begin(ssid, password);
+	WiFi.mode(WIFI_STA);
 	Serial.println("");
 	while (WiFi.status() != WL_CONNECTED)
 	{
 		delay(1000);
 		Serial.println("Laczenie z siecia WiFi");
 	}
-	Serial.println(WiFi.localIP());	//prezentacja adresu ip
+	Serial.println(WiFi.localIP()); //prezentacja adresu ip
 
 	//odpowiedzi serwera na requesty WWW
 	server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
@@ -105,9 +117,9 @@ void setup()
 		request->send(200, "text/plain", String(pm10).c_str());
 	});
 
-	server.begin();			//uruchomienie serwera WWW
-	timeClient.begin();		//uruchomienie klienta NTP
-	timeClient.update();	//aktualizacja czasu
+	server.begin();		 //uruchomienie serwera WWW
+	timeClient.begin();	 //uruchomienie klienta NTP
+	timeClient.update(); //aktualizacja czasu
 	delay(5000);
 }
 
@@ -148,10 +160,10 @@ void loop()
 {
 	//odczyt danych z PMS7003
 	Serial.println("\n----------PMS7003------------");
-	pms.wakeUp();	//wybudzenie czujnika
-	delay(30000);	//pauza na ustabilizowanie pomiarów
+	pms.wakeUp(); //wybudzenie czujnika
+	delay(30000); //pauza na ustabilizowanie pomiarów
 	pms.requestRead();
-	if (pms.readUntil(data, 2000))	//odczyt poszczególnych wartości PM: 10, 2.5, 1.0
+	if (pms.readUntil(data, 2000)) //odczyt poszczególnych wartości PM: 10, 2.5, 1.0
 	{
 		Serial.print("PM 10.0 (ug/m3): ");
 		pm10 = data.PM_AE_UG_10_0;
@@ -193,9 +205,9 @@ void loop()
 	mesurementTime = timeClient.getFormattedTime();
 	Serial.println(mesurementTime);
 
-	sendDataToThingSpeak();	//wysłanie zebranych wyników na kanał ThingSpeak
+	sendDataToThingSpeak(); //wysłanie zebranych wyników na kanał ThingSpeak
 	delay(100);
 	Serial.println("Usypiam na 60 sekund.");
-	pms.sleep();			//uspienie PMS7003
+	pms.sleep(); //uspienie PMS7003
 	delay(60000);
 }

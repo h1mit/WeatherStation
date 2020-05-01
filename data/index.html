@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-<html lang="en">
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8" />
@@ -10,289 +9,467 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <style>
+        #time {
+            text-align: right;
+        }
+
+        .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #111;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+            font-weight: bold;
+        }
+
+        .sidebar a {
+            padding: 8px 8px 8px 25px;
+            text-decoration: none;
+            font-size: 1.6em;
+            color: #818181;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover {
+            color: #f1f1f1;
+        }
+
+        .openbtn {
+            font-size: 20px;
+            cursor: pointer;
+            background-color: #111;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 10px;
+        }
+
+        .openbtn:hover {
+            background-color: #444;
+        }
+
+        #main {
+            transition: margin-left 0.5s;
+            padding: 20px;
+            padding-top: 20px;
+        }
+
+        /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+        @media screen and (max-height: 450px) {
+            .sidebar {
+                padding-top: 60px;
+            }
+
+            .sidebar a {
+                font-size: 20px;
+            }
+        }
+
+        @media screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation : portrait) {
+            #maybe {
+                font-size: 18px;
+            }
+
+            #timeLeft {
+                font-size: 13px;
+            }
+
+            #datetime {
+                font-size: 18px;
+            }
+
+            #main {
+                padding: 10px;
+                padding-top: 20px;
+            }
+
+            .sidebar a {
+                font-size: 18px;
+            }
+        }
+
+        #info {
+            font-size: 20px;
+            text-align: right;
+        }
+
+        #mess {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
         .center {
             text-align: center;
         }
 
         .result span {
-            margin: 3%
-        }
-
-        .bord {
-            border: 5px solid green;
-            border-radius: 25px;
-            width: 25%;
-            height: 120px;
-            padding: 15px;
-            margin: 5px
+            margin: 3%;
         }
 
         img {
-            height: 6em;
-            width: 6em;
+            height: 5em;
+            width: 5em;
         }
 
         .values {
             font-weight: bold;
-            font-size: 1.3em;
+            font-size: 20px;
         }
 
         .title {
-            font-size: 1.3em;
+            font-size: 23px;
+            font-weight: bold;
+        }
+
+        #updateTime {
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        #datetime {
+            text-align: right;
         }
     </style>
 </head>
 
-<body onload="firstLoad()">
-    <div class="w3-sidebar w3-bar-block w3-black w3-card values" style="width:130px">
-        <h5 class="w3-bar-item">Menu</h5>
-        <button class="w3-bar-item w3-button tablink" onclick="openLink(event, 'start')">
-            Start
-        </button>
-        <button class="w3-bar-item w3-button tablink" onclick="openLink(event, 'data')">
-            Dane pogodowe
-        </button>
+<body onload="firstLoad();">
+    <div id="mySidebar" class="sidebar">
+        <a href="#" onclick="openLink(event, 'Start')">Start</a>
+        <a href="#" onclick="openLink(event, 'History')">Historia pomiarów</a>
+        <a href="#">O projekcie</a>
     </div>
-    <div style="margin-left:20%">
-        <div id="start" class="w3-container city w3-animate-zoom" style="display:none">
-            <div class="w3-row">
-                Hello
+
+    <div id="main">
+        <div class="w3-row">
+            <div class="col-xs-5 col-lg-6 col-md-6 col-sm-6">
+                <button class="openbtn" onclick="toggleNav()">☰</button>
+            </div>
+            <div class="col-xs-7 col-lg-6 col-md-6 col-sm-6 values">
+                <div class="w3-row" id="datetime">
+                    <span id="date"></span><span id="time"></span>
+                </div>
             </div>
         </div>
-        <div id="data" class="w3-container city w3-animate-left">
-            <br />
-            <br />
-            <div class="w3-row values center">
-                Czas ostatniego pomiaru:
-                <span id="mesurementTime"></span>
+
+        <div id="History" class="w3-container city w3-animate-left" style="display:none">
+            <div class="w3-row">
+                Kolejna zakładka
             </div>
-            <br>
+        </div>
+
+        <div id="Start" class="w3-container city w3-animate-left">
+            <br />
+            <div id="mess" class="w3-row">
+                <div id="maybe">
+                    <span id="mesurementTime"></span>
+                </div>
+            </div>
+            <div id="updateTime" class="w3-row">
+                <span id="timeLeft">Aktualizacja za 02:00 min.</span>
+            </div>
             <br />
             <div class="w3-row center">
-                <div class="w3-third w3-container">
+                <div class="col-xs-12 col-lg-4 col-md-4 col-sm-4 values">
                     <br />
-                    <img src="https://i.imgur.com/W0PFZli.png" data-toggle="tooltip" data-placement="top" title="
-Temperatura">
-                    <br><br>
+                    <img src="https://i.imgur.com/W0PFZli.png" data-toggle="tooltip" data-placement="top" title="Temperatura" />
+                    <br /><br />
                     <span id="temperature" class="values"></span>
                 </div>
-                <div class="w3-third w3-container">
+                <div class="col-xs-12 col-lg-4 col-md-4 col-sm-4 values">
                     <br />
-                    <img src="https://i.imgur.com/y1s3QAX.png" data-toggle="tooltip" data-placement="top" title="
-Wilgotność">
-                    <br><br>
+                    <img src="https://i.imgur.com/y1s3QAX.png" data-toggle="tooltip" data-placement="top" title="Wilgotność" />
+                    <br /><br />
                     <span id="humidity" class="values"></span>
                 </div>
-                <div class="w3-third w3-container">
+                <div class="col-xs-12 col-lg-4 col-md-4 col-sm-4 values">
                     <br />
-                    <img src="https://i.imgur.com/8wMx0zy.png" data-toggle="tooltip" data-placement="top" title="
-Ciśnienie">
-                    <br><br>
+                    <img src="https://i.imgur.com/8wMx0zy.png" data-toggle="tooltip" data-placement="top" title="Ciśnienie" />
+                    <br /><br />
                     <span id="pressure" class="values"></span>
                 </div>
             </div>
             <br />
             <div class="w3-row center">
-                <div class="w3-third w3-container values">
+                <div class="col-xs-12 col-lg-4 col-md-4 col-sm-4">
                     <div class="w3-row title">
                         <br />
-                        <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="top" title="
-PM10 to zanieczyszczenia powietrza o średnicy 10 mikrometrów lub mniej."></i> PM 10.0
+                        PM 10.0
+                        <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="top" title="PM10 to zanieczyszczenia powietrza o średnicy 10 mikrometrów lub mniej."></i>
                     </div>
-                    <br>
+                    <br />
                     <div class="w3-row result">
-                        <span id="pm10per" data-toggle="tooltip" data-placement="top" title="
-Norma dobowa: 50 µg/m³"></span>
-                        <span id="pm10">
-                        </span>
+                        <span id="pm10per" class="values" data-toggle="tooltip" data-placement="top" title="Norma dobowa: 50 µg/m³"></span>
+                        <span id="pm10" class="values"></span>
                     </div>
                 </div>
 
-                <div class="w3-third w3-container values">
+                <div class="col-xs-12 col-lg-4 col-md-4 col-sm-4">
                     <div class="w3-row title">
                         <br />
-                        <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="top" title="
-PM2.5 to zanieczyszczenia powietrza o średnicy 2,5 mikrometra lub mniej."></i> PM 2.5
+                        PM 2.5
+                        <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="top" title="PM2.5 to zanieczyszczenia powietrza o średnicy 2,5 mikrometra lub mniej."></i>
                     </div>
-                    <br>
+                    <br />
                     <div class="w3-row result">
-                        <span id="pm25per" data-toggle="tooltip" data-placement="top" title="
-Norma dobowa: 25 µg/m³"></span>
-                        <span id="pm25">
-                        </span>
+                        <span id="pm25per" class="values" data-toggle="tooltip" data-placement="top" title="Norma dobowa: 25 µg/m³"></span>
+                        <span id="pm25" class="values"></span>
                     </div>
                 </div>
 
-                <div class="w3-third w3-container values">
+                <div class="col-xs-12 col-lg-4 col-md-4 col-sm-4">
                     <div class="w3-row title">
                         <br />
-                        <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="top" title="
-PM1 to zanieczyszczenia powietrza o średnicy 1 mikrometr lub mniej."></i> PM 1.0
+                        PM 1.0
+                        <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="top" title="PM1 to zanieczyszczenia powietrza o średnicy 1 mikrometr lub mniej."></i>
                     </div>
-                    <br>
-                    <div class="w3-row value">
-                        <span id="pm1" data-toggle="tooltip" data-placement="top" title="
-Norma dobowa dla PM1 nie jest zdefiniowana">
+                    <br />
+                    <div class="w3-row">
+                        <span id="pm1" class="values" data-toggle="tooltip" data-placement="top" title="Norma dobowa dla PM1 nie jest zdefiniowana">
                         </span>
                     </div>
                 </div>
             </div>
-            <script>
-                //site design
-                function openLink(evt, animName) {
-                    var i, x, tablinks;
-                    x = document.getElementsByClassName("city");
-                    for (i = 0; i < x.length; i++) {
-                        x[i].style.display = "none";
+            <br />
+            <br />
+        </div>
+        <script>
+            //site design
+            function openLink(evt, animName) {
+                var i, x, tablinks;
+                x = document.getElementsByClassName("city");
+                for (i = 0; i < x.length; i++) {
+                    x[i].style.display = "none";
+                }
+                document.getElementById(animName).style.display = "block";
+            }
+
+            $(document).ready(function() {
+                $('[data-toggle="tooltip"]').tooltip();
+            });
+
+            var menuStatus = 0;
+
+            function toggleNav() {
+                document.activeElement.blur();
+                if (menuStatus) {
+                    document.getElementById("mySidebar").style.width = "0";
+                    document.getElementById("main").style.marginLeft = "0";
+                    menuStatus = 0;
+                } else {
+                    document.getElementById("mySidebar").style.width =
+                        "170px";
+                    document.getElementById("main").style.marginLeft =
+                        "160px";
+                    menuStatus = 1;
+                }
+            }
+
+            //date
+            function dispDate() {
+                var today = new Date();
+                var day = today.getDate();
+                if (day < 10) day = "0" + day;
+                var month = today.getMonth() + 1;
+                if (month < 10) month = "0" + month;
+                var date = day + "-" + month + "-" + today.getFullYear();
+                var dateLabe = document.getElementById("date");
+                dateLabe.innerHTML = date + ", ";
+            }
+
+            //clock
+            function startTime() {
+                var today = new Date();
+                var h = today.getHours();
+                var m = today.getMinutes();
+                var s = today.getSeconds();
+                m = checkTime(m);
+                s = checkTime(s);
+                document.getElementById("time").innerHTML =
+                    h + ":" + m + ":" + s;
+                var t = setTimeout(startTime, 500);
+            }
+
+            function checkTime(i) {
+                if (i < 10) {
+                    i = "0" + i;
+                } // add zero in front of numbers < 10
+                return i;
+            }
+
+            //countdown timer
+            function startTimer() {
+                var timer = 119,
+                    minutes,
+                    seconds;
+                setInterval(function() {
+                    minutes = parseInt(timer / 60, 10);
+                    seconds = parseInt(timer % 60, 10);
+
+                    minutes = minutes < 10 ? "0" + minutes : minutes;
+                    seconds = seconds < 10 ? "0" + seconds : seconds;
+                    var leftTimelabel = document.getElementById("timeLeft");
+                    leftTimelabel.innerHTML =
+                        "Aktualizacja za " +
+                        minutes +
+                        ":" +
+                        seconds +
+                        " min.";
+                    if (--timer < 0) {
+                        timer = 119;
                     }
-                    tablinks = document.getElementsByClassName("tablink");
-                    for (i = 0; i < x.length; i++) {
-                        tablinks[i].className = tablinks[i].className.replace(
-                            " w3-red",
-                            ""
+                }, 1000);
+            }
+
+            //requests
+            function updateTemperature() {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var temperatureLabel = document.getElementById(
+                            "temperature"
                         );
+                        var temperatureData = parseFloat(this.responseText);
+                        console.log(this.responseText);
+                        temperatureLabel.innerHTML =
+                            temperatureData + " °C";
                     }
-                    document.getElementById(animName).style.display = "block";
-                    evt.currentTarget.className += " w3-red";
-                }
+                };
+                xhttp.open("GET", "/temperature", true);
+                xhttp.send();
+            }
 
-                $(document).ready(function() {
-                    $('[data-toggle="tooltip"]').tooltip();
-                });
+            function updateHumidity() {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var humidityLabel = document.getElementById(
+                            "humidity"
+                        );
+                        var humidityData = parseFloat(this.responseText);
+                        console.log(this.responseText);
+                        humidityLabel.innerHTML = humidityData + " %";
+                    }
+                };
+                xhttp.open("GET", "/humidity", true);
+                xhttp.send();
+            }
 
+            function updatePressure() {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var pressureLabel = document.getElementById(
+                            "pressure"
+                        );
+                        var pressureData = parseFloat(this.responseText);
+                        console.log(this.responseText);
+                        pressureLabel.innerHTML = pressureData + " hPa";
+                    }
+                };
+                xhttp.open("GET", "/pressure", true);
+                xhttp.send();
+            }
 
-                //requests
-                function updateTemperature() {
-                    var xhttp = new XMLHttpRequest();
-                    xhttp.onreadystatechange = function() {
-                        if (this.readyState == 4 && this.status == 200) {
-                            var temperatureLabel = document.getElementById(
-                                "temperature"
-                            );
-                            var temperatureData = parseFloat(this.responseText);
-                            console.log(this.responseText);
-                            temperatureLabel.innerHTML = temperatureData + " °C";
-                        }
-                    };
-                    xhttp.open("GET", "/temperature", true);
-                    xhttp.send();
-                }
+            function updateMesurementTime() {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var mesurementTimeLabel = document.getElementById(
+                            "mesurementTime"
+                        );
+                        var mesurementTimeData = this.responseText;
+                        console.log(this.responseText);
+                        mesurementTimeLabel.innerHTML =
+                            "Czas ostatniego pomiaru: " +
+                            mesurementTimeData;
+                    }
+                };
+                xhttp.open("GET", "/time", true);
+                xhttp.send();
+            }
 
-                function updateHumidity() {
-                    var xhttp = new XMLHttpRequest();
-                    xhttp.onreadystatechange = function() {
-                        if (this.readyState == 4 && this.status == 200) {
-                            var humidityLabel = document.getElementById(
-                                "humidity"
-                            );
-                            var humidityData = parseFloat(this.responseText);
-                            console.log(this.responseText);
-                            humidityLabel.innerHTML = humidityData + " %";
-                        }
-                    };
-                    xhttp.open("GET", "/humidity", true);
-                    xhttp.send();
-                }
+            function updatePM10() {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var pm10Label = document.getElementById("pm10");
+                        var pm10perLabel = document.getElementById(
+                            "pm10per"
+                        );
+                        var pm10Data = parseFloat(this.responseText);
+                        var pm10Per = (pm10Data / 50) * 100;
+                        console.log(this.responseText);
+                        pm10Label.innerHTML = pm10Data + " µg/m³";
+                        pm10perLabel.innerHTML = pm10Per.toFixed(2) + " %";
+                    }
+                };
+                xhttp.open("GET", "/pm10", true);
+                xhttp.send();
+            }
 
-                function updatePressure() {
-                    var xhttp = new XMLHttpRequest();
-                    xhttp.onreadystatechange = function() {
-                        if (this.readyState == 4 && this.status == 200) {
-                            var pressureLabel = document.getElementById(
-                                "pressure"
-                            );
-                            var pressureData = parseFloat(this.responseText);
-                            console.log(this.responseText);
-                            pressureLabel.innerHTML = pressureData + " hPa";
-                        }
-                    };
-                    xhttp.open("GET", "/pressure", true);
-                    xhttp.send();
-                }
+            function updatePM25() {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var pm25Label = document.getElementById("pm25");
+                        var pm25perLabel = document.getElementById(
+                            "pm25per"
+                        );
+                        var pm25Data = parseFloat(this.responseText);
+                        var pm25Per = (pm25Data / 25) * 100;
+                        console.log(this.responseText);
+                        pm25Label.innerHTML = pm25Data + " µg/m³";
+                        pm25perLabel.innerHTML = pm25Per.toFixed(2) + " %";
+                    }
+                };
+                xhttp.open("GET", "/pm25", true);
+                xhttp.send();
+            }
 
-                function updateMesurementTime() {
-                    var xhttp = new XMLHttpRequest();
-                    xhttp.onreadystatechange = function() {
-                        if (this.readyState == 4 && this.status == 200) {
-                            var mesurementTimeLabel = document.getElementById(
-                                "mesurementTime"
-                            );
-                            var mesurementTimeData = this.responseText;
-                            console.log(this.responseText);
-                            mesurementTimeLabel.innerHTML = mesurementTimeData;
-                        }
-                    };
-                    xhttp.open("GET", "/time", true);
-                    xhttp.send();
-                }
+            function updatePM1() {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var pm1Label = document.getElementById("pm1");
+                        var pm1Data = parseFloat(this.responseText);
+                        console.log(this.responseText);
+                        pm1Label.innerHTML = pm1Data + " µg/m³";
+                    }
+                };
+                xhttp.open("GET", "/pm1", true);
+                xhttp.send();
+            }
 
-                function updatePM10() {
-                    var xhttp = new XMLHttpRequest();
-                    xhttp.onreadystatechange = function() {
-                        if (this.readyState == 4 && this.status == 200) {
-                            var pm10Label = document.getElementById("pm10");
-                            var pm10perLabel = document.getElementById("pm10per");
-                            var pm10Data = parseFloat(this.responseText);
-                            var pm10Per = (pm10Data / 50) * 100;
-                            console.log(this.responseText);
-                            pm10Label.innerHTML = pm10Data + " µg/m³";
-                            pm10perLabel.innerHTML = pm10Per.toFixed(2) + " %";
-                        }
-                    };
-                    xhttp.open("GET", "/pm10", true);
-                    xhttp.send();
-                }
+            function firstLoad() {
+                startTimer();
+                updateMesurementTime();
+                updateTemperature();
+                updateHumidity();
+                updatePressure();
+                updatePM10();
+                updatePM25();
+                updatePM1();
+                startTime();
+                dispDate();
+            }
 
-                function updatePM25() {
-                    var xhttp = new XMLHttpRequest();
-                    xhttp.onreadystatechange = function() {
-                        if (this.readyState == 4 && this.status == 200) {
-                            var pm25Label = document.getElementById("pm25");
-                            var pm25perLabel = document.getElementById("pm25per");
-                            var pm25Data = parseFloat(this.responseText);
-                            var pm25Per = (pm25Data / 25) * 100;
-                            console.log(this.responseText);
-                            pm25Label.innerHTML = pm25Data + " µg/m³";
-                            pm25perLabel.innerHTML = pm25Per.toFixed(2) + " %";
-                        }
-                    };
-                    xhttp.open("GET", "/pm25", true);
-                    xhttp.send();
-                }
-
-                function updatePM1() {
-                    var xhttp = new XMLHttpRequest();
-                    xhttp.onreadystatechange = function() {
-                        if (this.readyState == 4 && this.status == 200) {
-                            var pm1Label = document.getElementById("pm1");
-                            var pm1Data = parseFloat(this.responseText);
-                            console.log(this.responseText);
-                            pm1Label.innerHTML = pm1Data + " µg/m³";
-                        }
-                    };
-                    xhttp.open("GET", "/pm1", true);
-                    xhttp.send();
-                }
-
-                function firstLoad() {
-                    updateMesurementTime();
-                    updateTemperature();
-                    updateHumidity();
-                    updatePressure();
-                    updatePM10();
-                    updatePM25();
-                    updatePM1();
-                }
-
-                setInterval("updateMesurementTime();", 120000);
-                setInterval("updateTemperature()", 120000);
-                setInterval("updateHumidity()", 120000);
-                setInterval("updatePressure()", 120000);
-                setInterval("updatePM10()", 120000);
-                setInterval("updatePM25()", 120000);
-                setInterval("updatePM1()", 120000);
-            </script>
-</body>
-
-</html></html>
+            setInterval("updateMesurementTime();", 120000);
+            setInterval("updateTemperature()", 120000);
+            setInterval("updateHumidity()", 120000);
+            setInterval("updatePressure()", 120000);
+            setInterval("updatePM10()", 120000);
+            setInterval("updatePM25()", 120000);
+            setInterval("updatePM1()", 120000);
+        </script>
+    </div>
+</body></html>

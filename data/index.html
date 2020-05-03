@@ -58,6 +58,18 @@
             font-size: 12px;
         }
 
+        #thingspeak {
+            text-align: left;
+            padding: 25px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .aboutme {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
         @media screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait) {
             img {
                 height: 5em;
@@ -80,6 +92,7 @@
                 font-size: 18px;
             }
         }
+
     </style>
 </head>
 
@@ -94,10 +107,10 @@
                     <a class="nav-link" href="#" onclick="openLink(event, 'Start')">Start</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" onclick="openLink(event, 'ThingSpeak')">ThingSpeak</a>
+                    <a class="nav-link" href="#" onclick="openLink(event, 'ThingSpeak')">Historia pomiarów</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">O projekcie</a>
+                    <a class="nav-link" href="#" onclick="openLink(event, 'About')">O projekcie</a>
                 </li>
             </ul>
         </div>
@@ -108,35 +121,6 @@
                 <span id="date"></span><span id="time"></span>
                 <br>
                 <span id="timeLeft">Aktualizacja za 02:00 min.</span>
-            </div>
-        </div>
-    </div>
-
-    <div id="ThingSpeak" class="containter city w3-animate-left" style="display: none">
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <canvas id="tempCanvas" width="400" height="300"></canvas>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
-                <canvas id="humidCanvas" width="400" height="300"></canvas>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
-                <canvas id="pressCanvas" width="400" height="300"></canvas>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <canvas id="pm10Canvas" width="400" height="300"></canvas>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
-                <canvas id="pm25Canvas" width="400" height="300"></canvas>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
-                <canvas id="pm1Canvas" width="400" height="300"></canvas>
             </div>
         </div>
     </div>
@@ -210,7 +194,62 @@
             </div>
         </div>
     </div>
-
+    <div id="ThingSpeak" class="containter city w3-animate-left" style="display: none">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <canvas id="tempCanvas" width="400" height="300"></canvas>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
+                <canvas id="humidCanvas" width="400" height="300"></canvas>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
+                <canvas id="pressCanvas" width="400" height="300"></canvas>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <canvas id="pm10Canvas" width="400" height="300"></canvas>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
+                <canvas id="pm25Canvas" width="400" height="300"></canvas>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
+                <canvas id="pm1Canvas" width="400" height="300"></canvas>
+            </div>
+        </div>
+    </div>
+    <div id="About" class="container city w3-animate-left" style="display: none">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 center aboutme">
+                <span>Stacja pomiaru jakości powietrza. Projekt studencki realizowany w ramach przedmiotu Systemy Mikroprocesorowe i Wbudowane.</span>
+            </div>
+        </div>
+        <br>
+        <br>
+        <div class="row center aboutme">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
+                <a href="https://github.com/h1mit/WeatherStation" target="_blank"><i class="fab fa-github"></i> Repozytorum GitHub</a>
+                <br>
+                <br>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
+                <a id="thingspeak" href="https://thingspeak.com/channels/1036928" target="_blank"><i class="fas fa-poll-h"></i> Kanał ThingSpeak</a>
+                <br>
+                <br>
+            </div>
+            
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
+                <a href="https://pl.freepik.com/" target="_blank"><i class="far fa-file-image"></i> Designed by Freepik</a>
+                <br>
+                <br>
+            </div>
+        </div>
+        <br>
+    </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
@@ -293,16 +332,19 @@
                     labels: time,
                     datasets: [{
                         data: val,
-                        label: "Temperature",
+                        label: "Temperatura",
                         borderColor: "#3e95cd",
-                        fill: false
+                        fill: false,
+                        pointRadius: 6,
+                        pointHoverRadius: 6,
+                        backgroundColor: "#3e95cd"
                     }]
                 },
                 options: {
                     title: {
                         display: true,
                         text: "Temperatura",
-                        fontSize: 20,
+                        fontSize: 18,
                         fontColor: "black"
                     },
                     legend: {
@@ -311,31 +353,33 @@
                     scales: {
                         yAxes: [{
                             ticks: {
-                                fontSize: 12,
+                                fontSize: 15,
                                 fontColor: "black",
                                 fontStyle: "bold",
                                 userCallback: function(label, index, labels) {
                                     return parseFloat(label).toFixed(2);
-                                }
+                                },
+                                padding: 10
                             },
                             scaleLabel: {
                                 display: true,
                                 labelString: "Temperatura [°C]",
                                 fontStyle: "bold",
-                                fontSize: 15
+                                fontSize: 16
                             }
                         }],
                         xAxes: [{
                             ticks: {
-                                fontSize: 12,
+                                fontSize: 15,
                                 fontColor: "black",
-                                fontStyle: "bold"
+                                fontStyle: "bold",
+                                padding: 10
                             },
                             scaleLabel: {
                                 display: true,
                                 labelString: "Czas pomiaru",
                                 fontStyle: "bold",
-                                fontSize: 15
+                                fontSize: 16
                             }
                         }]
                     }
@@ -386,14 +430,17 @@
                         data: val,
                         label: "Wilgotność",
                         borderColor: "#3e95cd",
-                        fill: false
+                        fill: false,
+                        pointRadius: 6,
+                        pointHoverRadius: 6,
+                        backgroundColor: "#3e95cd"
                     }]
                 },
                 options: {
                     title: {
                         display: true,
                         text: "Wilgotność",
-                        fontSize: 20,
+                        fontSize: 18,
                         fontColor: "black"
                     },
                     legend: {
@@ -402,31 +449,33 @@
                     scales: {
                         yAxes: [{
                             ticks: {
-                                fontSize: 12,
+                                fontSize: 15,
                                 fontColor: "black",
                                 fontStyle: "bold",
                                 userCallback: function(label, index, labels) {
                                     return parseFloat(label).toFixed(2);
-                                }
+                                },
+                                padding: 10
                             },
                             scaleLabel: {
                                 display: true,
                                 labelString: "Wilgotność [%]",
                                 fontStyle: "bold",
-                                fontSize: 15
+                                fontSize: 16
                             }
                         }],
                         xAxes: [{
                             ticks: {
-                                fontSize: 12,
+                                fontSize: 15,
                                 fontColor: "black",
-                                fontStyle: "bold"
+                                fontStyle: "bold",
+                                padding: 10
                             },
                             scaleLabel: {
                                 display: true,
                                 labelString: "Czas pomiaru",
                                 fontStyle: "bold",
-                                fontSize: 15
+                                fontSize: 16
                             }
                         }]
                     }
@@ -477,14 +526,17 @@
                         data: val,
                         label: "Ciśnienie",
                         borderColor: "#3e95cd",
-                        fill: false
+                        fill: false,
+                        pointRadius: 6,
+                        pointHoverRadius: 6,
+                        backgroundColor: "#3e95cd"
                     }]
                 },
                 options: {
                     title: {
                         display: true,
                         text: "Ciśnienie",
-                        fontSize: 20,
+                        fontSize: 18,
                         fontColor: "black"
                     },
                     legend: {
@@ -493,31 +545,33 @@
                     scales: {
                         yAxes: [{
                             ticks: {
-                                fontSize: 12,
+                                fontSize: 15,
                                 fontColor: "black",
                                 fontStyle: "bold",
                                 userCallback: function(label, index, labels) {
                                     return parseFloat(label).toFixed(2);
-                                }
+                                },
+                                padding: 10
                             },
                             scaleLabel: {
                                 display: true,
                                 labelString: "Ciśnienie [hPa]",
                                 fontStyle: "bold",
-                                fontSize: 15
+                                fontSize: 16
                             }
                         }],
                         xAxes: [{
                             ticks: {
-                                fontSize: 12,
+                                fontSize: 15,
                                 fontColor: "black",
-                                fontStyle: "bold"
+                                fontStyle: "bold",
+                                padding: 10
                             },
                             scaleLabel: {
                                 display: true,
                                 labelString: "Czas pomiaru",
                                 fontStyle: "bold",
-                                fontSize: 15
+                                fontSize: 16
                             }
                         }]
                     }
@@ -568,14 +622,17 @@
                         data: val,
                         label: "PM10",
                         borderColor: "#3e95cd",
-                        fill: false
+                        fill: false,
+                        pointRadius: 6,
+                        pointHoverRadius: 6,
+                        backgroundColor: "#3e95cd"
                     }]
                 },
                 options: {
                     title: {
                         display: true,
                         text: "Stężenie cząsteczek PM 10",
-                        fontSize: 20,
+                        fontSize: 18,
                         fontColor: "black"
                     },
                     legend: {
@@ -585,28 +642,30 @@
                         yAxes: [{
                             ticks: {
                                 precision: 0,
-                                fontSize: 12,
+                                fontSize: 15,
                                 fontColor: "black",
                                 fontStyle: "bold",
+                                padding: 10,
                             },
                             scaleLabel: {
                                 display: true,
                                 labelString: "PM10 [µg/m³]",
                                 fontStyle: "bold",
-                                fontSize: 15
+                                fontSize: 16
                             }
                         }],
                         xAxes: [{
                             ticks: {
-                                fontSize: 12,
+                                fontSize: 15,
                                 fontColor: "black",
-                                fontStyle: "bold"
+                                fontStyle: "bold",
+                                padding: 10
                             },
                             scaleLabel: {
                                 display: true,
                                 labelString: "Czas pomiaru",
                                 fontStyle: "bold",
-                                fontSize: 15
+                                fontSize: 16
                             }
                         }]
                     }
@@ -657,14 +716,17 @@
                         data: val,
                         label: "PM 2.5",
                         borderColor: "#3e95cd",
-                        fill: false
+                        fill: false,
+                        pointRadius: 6,
+                        pointHoverRadius: 6,
+                        backgroundColor: "#3e95cd"
                     }]
                 },
                 options: {
                     title: {
                         display: true,
                         text: "Stężenie cząsteczek PM 2.5",
-                        fontSize: 20,
+                        fontSize: 18,
                         fontColor: "black"
                     },
                     legend: {
@@ -674,28 +736,30 @@
                         yAxes: [{
                             ticks: {
                                 precision: 0,
-                                fontSize: 12,
+                                fontSize: 15,
                                 fontColor: "black",
                                 fontStyle: "bold",
+                                padding: 10
                             },
                             scaleLabel: {
                                 display: true,
                                 labelString: "PM 2.5 [µg/m³]",
                                 fontStyle: "bold",
-                                fontSize: 15
+                                fontSize: 16
                             }
                         }],
                         xAxes: [{
                             ticks: {
-                                fontSize: 12,
+                                fontSize: 15,
                                 fontColor: "black",
-                                fontStyle: "bold"
+                                fontStyle: "bold",
+                                padding: 10
                             },
                             scaleLabel: {
                                 display: true,
                                 labelString: "Czas pomiaru",
                                 fontStyle: "bold",
-                                fontSize: 15
+                                fontSize: 16
                             }
                         }]
                     }
@@ -746,15 +810,18 @@
                         data: val,
                         label: "PM 1",
                         borderColor: "#3e95cd",
-                        fill: false
+                        fill: false,
+                        pointRadius: 6,
+                        pointHoverRadius: 6,
+                        backgroundColor: "#3e95cd"
                     }]
                 },
                 options: {
                     title: {
                         display: true,
                         text: "Stężenie cząsteczek PM 1",
-                        fontSize: 20,
-                        fontColor: "black"
+                        fontSize: 18,
+                        fontColor: "black",
                     },
                     legend: {
                         display: false
@@ -763,28 +830,30 @@
                         yAxes: [{
                             ticks: {
                                 precision: 0,
-                                fontSize: 12,
+                                fontSize: 15,
                                 fontColor: "black",
                                 fontStyle: "bold",
+                                padding: 10
                             },
                             scaleLabel: {
                                 display: true,
                                 labelString: "PM 1 [µg/m³]",
                                 fontStyle: "bold",
-                                fontSize: 15
+                                fontSize: 16
                             }
                         }],
                         xAxes: [{
                             ticks: {
-                                fontSize: 12,
+                                fontSize: 15,
                                 fontColor: "black",
-                                fontStyle: "bold"
+                                fontStyle: "bold",
+                                padding: 10
                             },
                             scaleLabel: {
                                 display: true,
                                 labelString: "Czas pomiaru",
                                 fontStyle: "bold",
-                                fontSize: 15
+                                fontSize: 16
                             }
                         }]
                     }
@@ -1005,7 +1074,6 @@
             removeData(pm1Chart);
         }
 
-        setInterval("updatePM1()", 120000);
         setInterval("updateMesurementTime()", 120000);
         setInterval("updateTemperature()", 120000);
         setInterval("updateHumidity()", 120000);
@@ -1013,5 +1081,8 @@
         setInterval("updatePM10()", 120000);
         setInterval("updatePM25()", 120000);
         setInterval("updatePM1()", 120000);
+
     </script>
-</body></html>
+</body>
+
+</html>

@@ -937,7 +937,7 @@
                     );
                     var temperatureData = 0;
                     temperatureData = parseFloat(this.responseText);
-                    temperatureLabel.innerHTML = temperatureData + " °C";
+                    temperatureLabel.innerHTML = temperatureData.toFixed(2) + " °C";
                     addData(tempChart, mesurementTimeData, temperatureData);
                     shiftData(tempChart);
                 }
@@ -952,7 +952,7 @@
                 if (this.readyState == 4 && this.status == 200) {
                     var humidityLabel = document.getElementById("humidity");
                     var humidityData = parseFloat(this.responseText);
-                    humidityLabel.innerHTML = humidityData + " %";
+                    humidityLabel.innerHTML = humidityData.toFixed(2) + " %";
                     addData(humidChart, mesurementTimeData, humidityData);
                     shiftData(humidChart);
                 }
@@ -967,7 +967,7 @@
                 if (this.readyState == 4 && this.status == 200) {
                     var pressureLabel = document.getElementById("pressure");
                     var pressureData = parseFloat(this.responseText);
-                    pressureLabel.innerHTML = pressureData + " hPa";
+                    pressureLabel.innerHTML = pressureData.toFixed(2) + " hPa";
                     addData(pressChart, mesurementTimeData, pressureData);
                     shiftData(pressChart);
                 }

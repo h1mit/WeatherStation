@@ -63,6 +63,12 @@ void setup()
 			;
 	}
 
+	bme.setSampling(Adafruit_BME280::MODE_FORCED,
+                    Adafruit_BME280::SAMPLING_X1, // temperature
+                    Adafruit_BME280::SAMPLING_X1, // pressure
+                    Adafruit_BME280::SAMPLING_X1, // humidity
+                    Adafruit_BME280::FILTER_OFF   );
+
 	//SPIFFS inicjalizacja
 	if (!SPIFFS.begin())
 	{
@@ -183,6 +189,7 @@ void loop()
 	}
 
 	//odczyt danych z BME280
+	bme.takeForcedMeasurement();
 	Serial.println("\n----------BME280-------------");
 	Serial.print(F("Temperatura = "));
 	temperature = bme.readTemperature();
@@ -207,7 +214,7 @@ void loop()
 
 	sendDataToThingSpeak(); //wysłanie zebranych wyników na kanał ThingSpeak
 	delay(100);
-	Serial.println("Usypiam na 60 sekund.");
+	Serial.println("Usypiam na 1,5 minuty.");
 	pms.sleep(); //uspienie PMS7003
-	delay(60000);
+	delay(90000);
 }

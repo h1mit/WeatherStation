@@ -63,11 +63,18 @@ void setup()
 			;
 	}
 
-	bme.setSampling(Adafruit_BME280::MODE_FORCED,
-                    Adafruit_BME280::SAMPLING_X1, // temperature
-                    Adafruit_BME280::SAMPLING_X1, // pressure
-                    Adafruit_BME280::SAMPLING_X1, // humidity
-                    Adafruit_BME280::FILTER_OFF   );
+	// bme.setSampling(Adafruit_BME280::MODE_FORCED,
+	//                 Adafruit_BME280::SAMPLING_X1, // temperature
+	//                 Adafruit_BME280::SAMPLING_X1, // pressure
+	//                 Adafruit_BME280::SAMPLING_X1, // humidity
+	//                 Adafruit_BME280::FILTER_OFF   );
+
+	// bme.setSampling(Adafruit_BME280::MODE_NORMAL,
+	// 				Adafruit_BME280::SAMPLING_X2,  // temperature
+	// 				Adafruit_BME280::SAMPLING_X16, // pressure
+	// 				Adafruit_BME280::SAMPLING_X1,  // humidity
+	// 				Adafruit_BME280::FILTER_X16,
+	// 				Adafruit_BME280::STANDBY_MS_0_5);
 
 	//SPIFFS inicjalizacja
 	if (!SPIFFS.begin())
@@ -189,7 +196,7 @@ void loop()
 	}
 
 	//odczyt danych z BME280
-	bme.takeForcedMeasurement();
+	//bme.takeForcedMeasurement();
 	Serial.println("\n----------BME280-------------");
 	Serial.print(F("Temperatura = "));
 	temperature = bme.readTemperature();
